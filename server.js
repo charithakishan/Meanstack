@@ -1,7 +1,7 @@
 const con = require("../../connections/index")
-const checkEmail = (searchid, callback) => {
+const checkEmail = async function (search, callback) {
   var dbo = con.getDb();
-  dbo.collection("user").findOne(searchid, (err, result) => {
+  dbo.collection("user").findOne(search, (err, result) => {
     if (result) {
       callback(undefined, result)
     }
@@ -10,61 +10,53 @@ const checkEmail = (searchid, callback) => {
     }
   })
 }
-const updateToken = (email, token, cb) => {
-  var dbo = con.getDb();
-  dbo.collection("user").updateOne(email, { $set: { token: token } }, (err, resul) => {
+const registration = async (data, cb) => {
+  var dbo = con.getDb()
+  dbo.collection("user").insertOne(data, (err, result) => {
     if (err)
       cb(err, undefined)
     else
-      cb(undefined, resul)
+      cb(undefined, err)
   })
 }
-module.exports = { checkEmail, updateToken }
+module.exports = { checkEmail, registration }
 
 
 
-// exports.login = (req,res) => {
+//  console.log(a,"one");
+//  console.log(a.length,"two")
+//  var b = await dbo.collection("user").insertOne(data)
+// //  if(b.result.n>0)
+// console.log(b,"three")
+// console.log(b.length,"four")  
 
-//         var searchid = {email:req.body.email}
-//         var search ={email:req.body.email,password:req.body.password};
-//         var dbo=con.getDb();
-//   dbo.collection("user").findOne(searchid,function(err,resl){
-//     if(resl)
-//       {
-//         dbo.collection("user").findOne(search,function(err,result){
-//           if(result)
-//             {
-//               const token = jwt.sign({searchid},"my_secret_key1",{expiresIn: '1800s'});
-//               if(token)
-//               {
-//                 dbo.collection("user").updateOne({email:req.body.email},{$set:{token:token}},(err,result)=>{
-//                   if(err)
-//                   {
-//                       //res.send(err)
-//                       throw err;
-//                   }
-//                   else
-//                   {
-//                       console.log("updated"+result+"token:"+token)
-//                       res.send({
-//                         email:req.body.email,
-//                         token:token,
-//                         status:status
-//                     })
-//                   }
-//                 })
-//               }
 
-//             }
-//           else
-//             {
-//               console.log("incorrect password")
-//               res.send("incorrect password")
-//             } });
-//       }
+//  return b.result.n
+
+//if(a)
+// return "user found in db"
+//   var b = dbo.collection("user").insertOne(data)
+//   console.log(b)
+//     if(!resl)
+//     {
+// dbo.collection("user").insertOne(data, function(err,result){
+//         if(err)
+//         {
+//             console.log(err)
+//             console.log("error occured while registering the user")
+//         }
+//         else
+//         {
+//             console.log("user registered succesfully")
+//             res.send("registration successful")   
+//         }   }); 
+//         }
 //     else
-//       {
-//         console.log("user dosen't exist try registration")
-//         res.send("user dosen't exist try registration")
-//       } });
-//       }
+//         {
+//             console.log("user already exists try login")
+//             res.send("user already exists try login")
+//         }   }); 
+//}
+
+
+
